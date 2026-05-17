@@ -1,35 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
 project(BinaryTreeLab LANGUAGES CXX)
 
+# Современная настройка Qt6 (из твоего первого файла)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
-
 qt_standard_project_setup()
 
-qt_add_executable(BinaryTreeLab
-    WIN32 MACOSX_BUNDLE
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-)
-
-target_link_libraries(BinaryTreeLab
-    PRIVATE
-        Qt::Core
-        Qt::Widgets
-)
-
-include(GNUInstallDirs)
-
-install(TARGETS BinaryTreeLab
-    BUNDLE  DESTINATION .
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-qt_generate_deploy_app_script(
-    TARGET BinaryTreeLab
-    OUTPUT_SCRIPT deploy_script
-    NO_UNSUPPORTED_PLATFORM_ERROR
-)
-install(SCRIPT ${deploy_script})
+# Модульная структура (из второго файла)
+add_subdirectory(src)
