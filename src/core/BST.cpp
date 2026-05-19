@@ -1,6 +1,7 @@
 #include "BST.h"
 #include <cmath>
-
+#include <stdexcept>
+#include <iomanip>
 //Конструктор
 BST::BST() : root(nullptr) {}
 
@@ -8,8 +9,6 @@ BST::BST() : root(nullptr) {}
 BST::~BST() {
     clear();
 }
-
-//==================== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ====================
 
 //Высота узла
 int BST::getHeight(Node* node) {
@@ -46,8 +45,6 @@ BST::Node* BST::rotateLeft(Node* x) {
     y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
     return y;
 }
-
-//==================== ЯДРО ДЕРЕВА ====================
 
 //Рекурсивная вставка
 BST::Node* BST::insert(Node* node, double value) {
@@ -108,8 +105,6 @@ BST::Node* BST::findMax(Node* node) {
     return node;
 }
 
-//==================== ОБХОДЫ ====================
-
 //Прямой обход (Корень-Левое-Правое)
 void BST::preorder(Node* node, vector<double>& res) {
     if (node) {
@@ -137,9 +132,7 @@ void BST::postorder(Node* node, vector<double>& res) {
     }
 }
 
-//==================== ПЕЧАТЬ ====================
-
-//Вертикальная печать (уровень + значение)
+//Вертикальная печать (по уровням - BFS)
 void BST::verticalPrint(Node* node, int level, vector<pair<int, double>>& res) {
     if (node) {
         res.push_back({level, node->data});
@@ -157,12 +150,13 @@ void BST::horizontalPrint(Node* node, int space, string& res) {
 
     res += "\n";
     for (int i = 10; i < space; i++) res += " ";
-    res += to_string(node->data) + "\n";
+
+    ostringstream oss;
+    oss << fixed << setprecision(2) << node->data;
+    res += oss.str();
 
     horizontalPrint(node->left, space, res);
 }
-
-//==================== ПУБЛИЧНЫЕ МЕТОДЫ ====================
 
 //Вставка (обёртка)
 void BST::insert(double value) {
@@ -193,7 +187,7 @@ void BST::clear() {
     root = nullptr;
 }
 
-//Найти максимум (вариант 24)
+//Найти максимум
 double BST::findMax() {
     if (!root) throw runtime_error("Tree is empty");
     return findMax(root)->data;
@@ -205,7 +199,7 @@ double BST::findMin() {
     return findMin(root)->data;
 }
 
-//Получить обход (обёртки)
+//Получить обход
 vector<double> BST::preorder() {
     vector<double> res; preorder(root, res); return res;
 }
@@ -216,18 +210,54 @@ vector<double> BST::postorder() {
     vector<double> res; postorder(root, res); return res;
 }
 
-//Получить печать (обёртки)
+//Получить печать
 string BST::verticalPrint() {
-    vector<pair<int, double>> res; verticalPrint(root, 0, res);
-    string out;
-    for (auto& p : res) out += "Level " + to_string(p.first) + ": " + to_string(p.second) + "\n";
-    return out;
+    if (!root) return "Дерево пусто";
+
+    string output;
+    queue<pair<Node*, int>> q;
+    q.push({root, 0});
+
+    int currentLevel = 0;
+    bool firstInLevel = true;
+
+    while (!q.empty()) {
+        pair<Node*, int> current = q.front();
+        q.pop();
+
+        Node* node = current.first;
+        int level = current.second;
+
+        // Если перешли на новый уровень - добавляем перенос строки
+        if (level != currentLevel) {
+            output += "\n";
+            currentLevel = level;
+            firstInLevel = true;
+        }
+
+        // Пишем заголовок уровня только один раз
+        if (firstInLevel) {
+            output += "Уровень " + to_string(level) + ": ";
+            firstInLevel = false;
+        }
+
+        // Добавляем значение узла
+        ostringstream oss;
+        oss << fixed << setprecision(2) << node->data;
+        output += oss.str() + "  ";
+
+        // Добавляем детей в очередь
+        if (node->left) q.push({node->left, level + 1});
+        if (node->right) q.push({node->right, level + 1});
+    }
+
+    return output + "\n";
 }
 string BST::horizontalPrint() {
     string res; horizontalPrint(root, 0, res); return res;
 }
 
-//AVL балансировка (перестроение из отсортированного массива)
+//AVL балансировка
 void BST::balance() {
     vector<double> sorted = inorder();
     clear();
