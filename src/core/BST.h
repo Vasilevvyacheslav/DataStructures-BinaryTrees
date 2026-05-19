@@ -72,6 +72,7 @@ public:
     //Для визуализации
     Node* getRoot() { return root; }
     vector<Node*> getAllNodes();
+    friend class TreeVisualizer;
 };
 
 #endif // BST_H
