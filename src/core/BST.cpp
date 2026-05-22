@@ -1,4 +1,5 @@
 #include "BST.h"
+#include "TraversalSteps.h"
 #include <cmath>
 #include <stdexcept>
 #include <iomanip>
@@ -46,6 +47,15 @@ BST::Node* BST::rotateLeft(Node* x) {
     return y;
 }
 
+// Подсчёт шагов
+void BST::makeStep(vector<TraversalStep>& steps, int& stepNum, double nodeVal, const string& text, const vector<double>& visited) {
+    TraversalStep step;
+    step.stepNumber = stepNum++; // <-- Присваиваем текущий номер и сразу увеличиваем счетчик
+    step.currentNode = nodeVal;
+    step.logText = text;
+    step.visited = visited;
+    steps.push_back(step);
+}
 //Рекурсивная вставка
 BST::Node* BST::insert(Node* node, double value) {
     if (!node) return new Node(value);
@@ -193,12 +203,6 @@ double BST::findMax() {
     return findMax(root)->data;
 }
 
-//Найти минимум
-double BST::findMin() {
-    if (!root) throw runtime_error("Tree is empty");
-    return findMin(root)->data;
-}
-
 //Получить обход
 vector<double> BST::preorder() {
     vector<double> res; preorder(root, res); return res;
@@ -286,4 +290,143 @@ vector<BST::Node*> BST::getAllNodes() {
         if (cur->right) q.push(cur->right);
     }
     return nodes;
+}
+
+vector<TraversalStep> BST::generatePreorderSteps() {
+    vector<TraversalStep> steps;
+    int stepNum = 1;
+    vector<double> visited;
+    preorderSteps(root, steps, stepNum, visited);
+    return steps;
+}
+
+vector<TraversalStep> BST::generateInorderSteps() {
+    vector<TraversalStep> steps;
+    int stepNum = 1;
+    vector<double> visited;
+    inorderSteps(root, steps, stepNum, visited);
+    return steps;
+}
+
+vector<TraversalStep> BST::generatePostorderSteps() {
+    vector<TraversalStep> steps;
+    int stepNum = 1;
+    vector<double> visited;
+    postorderSteps(root, steps, stepNum, visited);
+    return steps;
+}
+
+// Рекурсивная генерация прямого обхода
+void BST::preorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited) {
+    if (!node) return;
+
+    // Посещаем узел
+    visited.push_back(node->data);
+    makeStep(steps, stepNum, node->data, "Посещаем узел: " + to_string(node->data), visited);
+
+    // Переход влево
+    if (node->left) {
+        makeStep(steps, stepNum, node->left->data, "Переход влево к " + to_string(node->left->data), visited);
+    }
+    preorderSteps(node->left, steps, stepNum, visited);
+
+    // Переход вправо
+    if (node->right) {
+        makeStep(steps, stepNum, node->right->data, "Переход вправо к " + to_string(node->right->data), visited);
+    }
+    preorderSteps(node->right, steps, stepNum, visited);
+}
+
+// Рекурсивная генерация симметричного обхода
+void BST::inorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited) {
+    if (!node) return;
+
+    // Переход влево
+    if (node->left) {
+        makeStep(steps, stepNum, node->left->data, "Спускаемся влево к " + to_string(node->left->data), visited);
+    }
+    inorderSteps(node->left, steps, stepNum, visited);
+
+    // Посещаем узел
+    visited.push_back(node->data);
+    makeStep(steps, stepNum, node->data, "Посещаем узел: " + to_string(node->data), visited);
+
+    // Переход вправо
+    if (node->right) {
+        makeStep(steps, stepNum, node->right->data, "Переход вправо к " + to_string(node->right->data), visited);
+    }
+    inorderSteps(node->right, steps, stepNum, visited);
+}
+
+// Рекурсивная генерация обратного обхода
+void BST::postorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited) {
+    if (!node) return;
+
+    // Переход влево
+    if (node->left) {
+        makeStep(steps, stepNum, node->left->data, "Спускаемся влево к " + to_string(node->left->data), visited);
+    }
+    postorderSteps(node->left, steps, stepNum, visited);
+
+    // Переход вправо
+    if (node->right) {
+        makeStep(steps, stepNum, node->right->data, "Переход вправо к " + to_string(node->right->data), visited);
+    }
+    postorderSteps(node->right, steps, stepNum, visited);
+
+    // Посещаем узел
+    visited.push_back(node->data);
+    makeStep(steps, stepNum, node->data, "Посещаем узел: " + to_string(node->data), visited);
+}
+
+// Генерация шагов поиска
+vector<TraversalStep> BST::generateSearchSteps(double value, bool& found) {
+    vector<TraversalStep> steps;
+    int stepNum = 1;
+    found = false; // Сбрасываем флаг перед стартом
+
+    searchSteps(root, value, steps, stepNum, found);
+
+    // Если элемент не найден, добавим финальный шаг "Не найдено"
+    if (!found) {
+        TraversalStep step;
+        step.stepNumber = stepNum++;
+        step.currentNode = value; // Подсвечиваем искомое значение
+        step.logText = "Элемент " + to_string(value) + " не найден!";
+        steps.push_back(step);
+    }
+    // Если найден, последний узел уже добавлен в список visited внутри searchSteps,
+    // поэтому он подсветится зеленым.
+
+    return steps;
+}
+
+void BST::searchSteps(Node* node, double value, vector<TraversalStep>& steps, int& stepNum, bool& found) {
+    if (!node) return;
+
+    TraversalStep step;
+    step.stepNumber = stepNum++;
+    step.currentNode = node->data;
+
+    // Проверка на совпадение
+    if (value == node->data) {
+        found = true;
+        step.logText = "Проверяем " + to_string(node->data) + " -> НАЙДЕНО!";
+        step.visited.push_back(node->data); // Добавляем в visited, чтобы стал зеленым
+        steps.push_back(step);
+        return; // Заканчиваем поиск
+    }
+
+    // Если не совпало, узел все равно становится частью "пройденного пути" (зеленым)
+    step.visited.push_back(node->data);
+
+    if (value < node->data) {
+        step.logText = "Проверяем " + to_string(node->data) + " -> Идем влево";
+        steps.push_back(step);
+        searchSteps(node->left, value, steps, stepNum, found);
+    } else {
+        step.logText = "Проверяем " + to_string(node->data) + " -> Идем вправо";
+        steps.push_back(step);
+        searchSteps(node->right, value, steps, stepNum, found);
+    }
 }

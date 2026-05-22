@@ -24,169 +24,120 @@
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
          <widget class="QWidget" name="widget" native="true">
-          <widget class="QWidget" name="horizontalLayoutWidget_2">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>10</y>
-             <width>236</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QDoubleSpinBox" name="spinValue"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnInsert">
-              <property name="text">
-               <string>Вставить</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_3">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>70</y>
-             <width>281</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QPushButton" name="btnRemove">
-              <property name="text">
-               <string>Удалить</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnSearch">
-              <property name="text">
-               <string>Поиск</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnFindMax">
-              <property name="text">
-               <string>Максимум</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>130</y>
-             <width>271</width>
-             <height>161</height>
-            </rect>
-           </property>
-           <property name="title">
-            <string>Обходы</string>
-           </property>
-           <widget class="QWidget" name="verticalLayoutWidget_3">
-            <property name="geometry">
-             <rect>
-              <x>29</x>
-              <y>30</y>
-              <width>211</width>
-              <height>121</height>
-             </rect>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="QPushButton" name="btnPreorder">
-               <property name="text">
-                <string>Прямой</string>
-               </property>
-              </widget>
+              <widget class="QDoubleSpinBox" name="spinValue"/>
              </item>
              <item>
-              <widget class="QPushButton" name="btnInorder">
+              <widget class="QPushButton" name="btnInsert">
                <property name="text">
-                <string>Симметричный</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnPostorder">
-               <property name="text">
-                <string>Обратный</string>
+                <string>Вставить</string>
                </property>
               </widget>
              </item>
             </layout>
-           </widget>
-          </widget>
-          <widget class="QPlainTextEdit" name="textOutput">
-           <property name="geometry">
-            <rect>
-             <x>3</x>
-             <y>424</y>
-             <width>291</width>
-             <height>241</height>
-            </rect>
-           </property>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_5">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>290</y>
-             <width>281</width>
-             <height>51</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_9">
-            <item>
-             <widget class="QPushButton" name="btnBalance">
-              <property name="text">
-               <string>Балансировать</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnClear">
-              <property name="text">
-               <string>Очистить</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="verticalLayoutWidget_4">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>340</y>
-             <width>241</width>
-             <height>81</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <widget class="QPushButton" name="btnHorizontalPrint">
-              <property name="text">
-               <string>Горизонтальная печать</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnVerticalPrint">
-              <property name="text">
-               <string>Вертикальная печать</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QPushButton" name="btnRemove">
+               <property name="text">
+                <string>Удалить</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnSearch">
+               <property name="text">
+                <string>Поиск</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnFindMax">
+               <property name="text">
+                <string>Максимум</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Обходы</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QPushButton" name="btnPreorder">
+                  <property name="text">
+                   <string>Прямой</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnInorder">
+                  <property name="text">
+                   <string>Симметричный</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnPostorder">
+                  <property name="text">
+                   <string>Обратный</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QPushButton" name="btnBalance">
+               <property name="text">
+                <string>Балансировать</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnClear">
+               <property name="text">
+                <string>Очистить</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QPushButton" name="btnHorizontalPrint">
+               <property name="text">
+                <string>Горизонтальная печать</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnVerticalPrint">
+               <property name="text">
+                <string>Вертикальная печать</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="textOutput"/>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>

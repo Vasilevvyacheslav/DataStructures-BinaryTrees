@@ -5,6 +5,7 @@
 #include <string>
 #include <queue>
 #include <functional>
+#include "TraversalSteps.h"
 using namespace std;
 
 class BST {
@@ -42,6 +43,13 @@ private:
     void verticalPrint(Node* node, int level, vector<pair<int, double>>& res);
     void horizontalPrint(Node* node, int space, string& res);
 
+    // Рекурсивные методы для генерации шагов
+    void preorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited);
+    void inorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited);
+    void postorderSteps(Node* node, vector<TraversalStep>& steps, int& stepNum, vector<double> visited);
+    void searchSteps(Node* node, double value, vector<TraversalStep>& steps, int& stepNum, bool& found);
+    // Метод отвечающий за подсчёт шагов анимации
+    void makeStep(vector<TraversalStep>& steps, int& stepNum, double nodeVal, const string& text, const vector<double>& visited);
 public:
     BST();
     ~BST();
@@ -53,9 +61,8 @@ public:
     bool isEmpty();
     void clear();
 
-    //Поиск мин/макс
+    //Поиск максимального узла
     double findMax();
-    double findMin();
 
     //Обходы
     vector<double> preorder();
@@ -73,6 +80,12 @@ public:
     Node* getRoot() { return root; }
     vector<Node*> getAllNodes();
     friend class TreeVisualizer;
+
+    // Генерация шагов для анимации
+    vector<TraversalStep> generatePreorderSteps();
+    vector<TraversalStep> generateInorderSteps();
+    vector<TraversalStep> generatePostorderSteps();
+    vector<TraversalStep> generateSearchSteps(double value, bool& found);
 };
 
 #endif // BST_H

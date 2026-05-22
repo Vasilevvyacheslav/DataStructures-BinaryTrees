@@ -10,6 +10,7 @@
 #include <QFont>
 #include <QColor>
 #include <QString>
+#include <algorithm>
 #include <cmath>
 #include "BST.h"
 using namespace std;
@@ -28,12 +29,18 @@ private:
 
     //Рекурсивная отрисовка
     void drawNodeRec(BST::Node* node, double x, double y, double offset);
+    // Рекурсивная отрисовка с подсветкой
+    void drawNodeRecWithHighlight(BST::Node* node, double x, double y, double offset,
+                                  double highlightNode, vector<double> visited);
 
 public:
     TreeVisualizer(QGraphicsScene* s, BST* t);
 
     //Метод для отрисовки всего дерева
     void drawTree();
+
+    // Отрисовка с подсветкой
+    void drawTreeWithHighlight(double highlightNode = -1, vector<double> visited = {});
 };
 
 #endif // TREEVISUALIZER_H
